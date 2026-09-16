@@ -58,9 +58,9 @@ $$
 W\in\mathbb{R}^{3\times3\times3}
 $$
 
-The filter slides over the image and performs multiplication and summation.
-
-The output dimensions of a convolution are calculated as:
+The filter/kernel slides over the image and performs multiplication and summation.
+After Each convulational layer , the size of the images in our model decreases by 2 because we using stride =2 , padding=1 with a kernel size =3
+Hence , The output dimensions of a convolution are calculated as:
 
 $$
 H_{new} =
@@ -85,30 +85,6 @@ P             → Padding
 S             → Stride
 ```
 
-For example, with a `3×3` kernel, `0` padding, and stride `1`:
-
-$$
-\frac{64-3}{1}+1=62
-$$
-
-so:
-
-```text
-64 × 64 → 62 × 62
-```
-
-The filter performs the following operation:
-
-$$
-F(i,j)=
-\sum_c\sum_u\sum_v
-X(c,i+u,j+v)W(c,u,v)
-$$
-
-The result is a **feature map**.
-
-Multiple filters produce multiple feature maps.
-
 ---
 
 ### 3. Activation
@@ -119,16 +95,6 @@ $$
 ReLU(x)=\max(0,x)
 $$
 
-For example:
-
-```text
-[-2, 4, -1, 7]
-```
-
-becomes:
-
-```text
-[0, 4, 0, 7]
 ```
 
 ---
