@@ -10,13 +10,9 @@ The model is designed around a 5-class diabetic retinopathy classification probl
 
 ```text
 0 → No DR
-
 1 → Mild
-
 2 → Moderate
-
 3 → Severe
-
 4 → Proliferative DR
 ```
 
@@ -24,6 +20,24 @@ The final model produces a probability distribution across the five classes.
 
 ```text
 [0.03, 0.07, 0.72, 0.14, 0.04]
+```
+
+---
+
+## Reduction in Size
+
+In this model, the original `256 × 256` images are resized to `64 × 64` before being passed into the network.
+
+This is mainly done because of limited computational resources. The model also contains multiple convolutional and residual layers, making training on higher-resolution images more computationally expensive on a local PC.
+
+```text
+256 × 256
+    ↓
+64 × 64
+    ↓
+Convolutional Layers
+    ↓
+Feature Extraction
 ```
 
 ---
@@ -52,15 +66,23 @@ pixel values.
 
 A convolution filter is a set of trainable weights.
 
-For an RGB `3×3` filter:
+For an RGB `3 × 3` filter:
 
 $$
 W\in\mathbb{R}^{3\times3\times3}
 $$
 
 The filter/kernel slides over the image and performs multiplication and summation.
-After Each convulational layer , the size of the images in our model decreases by 2 because we using stride =2 , padding=1 with a kernel size =3
-Hence , The output dimensions of a convolution are calculated as:
+
+In this model, the convolution layers use:
+
+```text
+Kernel  = 3 × 3
+Stride  = 2
+Padding = 1
+```
+
+The output dimensions of a convolution are calculated as:
 
 $$
 H_{new} =
@@ -85,6 +107,39 @@ P             → Padding
 S             → Stride
 ```
 
+For example:
+
+$$
+H_{new}
+=
+\left\lfloor
+\frac{64+2(1)-3}{2}
+\right\rfloor+1
+=32
+$$
+
+Therefore:
+
+```text
+64 × 64
+   ↓
+32 × 32
+```
+
+The same operation can continue:
+
+```text
+64 × 64
+   ↓
+32 × 32
+   ↓
+16 × 16
+   ↓
+8 × 8
+```
+
+So, with `stride = 2`, the spatial dimensions are approximately halved at each such convolutional layer.
+
 ---
 
 ### 3. Activation
@@ -101,7 +156,7 @@ $$
 
 ### 4. Classification
 
-After feature extraction, the network performs:
+After feature extraction, the network performs a linear transformation:
 
 $$
 Z=XW+b
@@ -119,15 +174,11 @@ $$
 Example:
 
 ```text
-No DR          0.03
-
-Mild           0.07
-
-Moderate       0.72
-
-Severe         0.14
-
-Proliferative  0.04
+No DR          → 0.03
+Mild           → 0.07
+Moderate       → 0.72
+Severe         → 0.14
+Proliferative  → 0.04
 ```
 
 ---
@@ -199,7 +250,7 @@ After the two convolutional layers of a basic residual block, the transformed fe
 
 This allows the block to learn the **residual relationship** between the input and the transformed features.
 
-If dimensions change, a `1×1` convolution can transform the identity branch so that the tensors can be added.
+If dimensions change, a `1 × 1` convolution can transform the identity branch so that the tensors can be added.
 
 ---
 
@@ -228,5 +279,7 @@ Residual Blocks
        ↓
 Custom ResNet
 ```
+
+---
 
 **The main purpose of this project is learning — understanding the mathematics behind CNNs and ResNets by implementing the concepts step by step.**
