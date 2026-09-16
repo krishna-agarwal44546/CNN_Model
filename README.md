@@ -107,37 +107,6 @@ P             → Padding
 S             → Stride
 ```
 
-For example:
-
-$$
-H_{new}
-=
-\left\lfloor
-\frac{64+2(1)-3}{2}
-\right\rfloor+1
-=32
-$$
-
-Therefore:
-
-```text
-64 × 64
-   ↓
-32 × 32
-```
-
-The same operation can continue:
-
-```text
-64 × 64
-   ↓
-32 × 32
-   ↓
-16 × 16
-   ↓
-8 × 8
-```
-
 So, with `stride = 2`, the spatial dimensions are approximately halved at each such convolutional layer.
 
 ---
@@ -166,10 +135,6 @@ producing five logits.
 
 Softmax converts them into probabilities:
 
-$$
-P_i=
-\frac{e^{Z_i}}{\sum_j e^{Z_j}}
-$$
 
 Example:
 
@@ -201,14 +166,6 @@ $$
 
 The parameters are then updated using gradient descent:
 
-$$
-W_{new}
-=
-W_{old}
--
-\eta
-\frac{\partial L}{\partial W}
-$$
 
 This process updates the **convolution filters, weights, and biases**.
 
