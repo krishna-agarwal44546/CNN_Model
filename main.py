@@ -105,7 +105,7 @@ for i in range(len(y_train),len(vals)):
 y_test=torch.tensor(y_test, dtype=torch.long)
 
 classes=['No DR','Mild','Moderate','Severe','Proliferative DR']
-epochs=2000
+epochs=100
 x=datetime.datetime.now()
 for epoch in range(epochs):
 	model.train()
